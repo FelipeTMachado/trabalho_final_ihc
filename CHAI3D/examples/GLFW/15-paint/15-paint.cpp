@@ -63,6 +63,8 @@ using namespace std;
 */
 cStereoMode stereoMode = C_STEREO_DISABLED;
 
+// FELIPE
+const double g_canvas_y_level = -0.05; // Altura da nossa "mesa" de desenho no eixo Y
 // fullscreen mode
 bool fullscreen = false;
 
@@ -323,9 +325,9 @@ int main(int argc, char* argv[])
     world->addChild(camera);
 
     // position and orient the camera
-    camera->set(cVector3d(0.8, 0.0, 0.0),    // camera position (eye)
+    camera->set(cVector3d(0.0, 0.0, 0.8),    // camera position (eye)
                 cVector3d(0.0, 0.0, 0.0),    // lookat position (target)
-                cVector3d(0.0, 0.0, 1.0));   // direction of the (up) vector
+                cVector3d(0.0, 1.0, 0.0));   // direction of the (up) vector
 
     // set the near and far clipping planes of the camera
     // anything in front or behind these clipping planes will not be rendered
@@ -360,7 +362,7 @@ int main(int argc, char* argv[])
     light->setEnabled(true);
 
     // define the direction of the light beam
-    light->setDir(-1.0, 0.0,-0.4);
+    light->setDir(0.0, 0.0, -1.0);
 
 
     //--------------------------------------------------------------------------
@@ -430,9 +432,7 @@ int main(int argc, char* argv[])
     world->addChild(palette);
 
     // set the position of the object
-    palette->setLocalPos(-0.25, -0.3, 0.0);
-    palette->rotateAboutGlobalAxisDeg(cVector3d(0,1,0), 90);
-    palette->rotateAboutGlobalAxisRad(cVector3d(1,0,0), cDegToRad(90));
+    palette->setLocalPos(0.35, 0.0, 0.0);
 
     // create texture map
     cTexture2dPtr texture = cTexture2d::create();
@@ -492,9 +492,7 @@ int main(int argc, char* argv[])
     world->addChild(canvas);
 
     // set the position of the object
-    canvas->setLocalPos(-0.25, 0.3, 0.0);
-    canvas->rotateAboutGlobalAxisRad(cVector3d(0,1,0), cDegToRad(90));
-    canvas->rotateAboutGlobalAxisRad(cVector3d(1,0,0), cDegToRad(90));
+    canvas->setLocalPos(-0.35, 0.0, 0.0);
 
     // create texture map
     canvas->m_texture = cTexture2d::create();
@@ -843,34 +841,7 @@ void renderHaptics(void)
 
         // update position and orientation of tool
         // FELIPE ALTEROU AQUI
-        // tool->updateFromDevice();
-
-        //-----------------------------------------------------------------
-        // INÍCIO DA MODIFICAÇÃO PARA INVERTER O CONTROLE   
-        //-----------------------------------------------------------------
-
-        // Leitura manual do estado do dispositivo
-        cVector3d position;
-        cMatrix3d rotation;
-        unsigned int userSwitches;
-
-        hapticDevice->getPosition(position);
-        hapticDevice->getRotation(rotation);
-        hapticDevice->getUserSwitches(userSwitches);
-
-        // --- AQUI É A INVERSÃO DO EIXO ---
-        // Para inverter a direção frente/trás, multiplicamos o eixo Z por -1.
-        // Se no seu dispositivo o eixo for outro, troque .z() por .x() ou .y().
-        position.z(-position.z());
-        
-        // Atualiza a ferramenta com os dados modificados
-        tool->setDeviceLocalPos(position);
-        tool->setDeviceLocalRot(rotation);
-        tool->setUserSwitches(userSwitches);
-
-        //-----------------------------------------------------------------
-        // FIM DA MODIFICAÇÃO
-        //-----------------------------------------------------------------
+        tool->updateFromDevice();
 
         // compute interaction forces
         tool->computeInteractionForces();

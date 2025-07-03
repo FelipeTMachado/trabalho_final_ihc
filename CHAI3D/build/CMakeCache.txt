@@ -17,11 +17,17 @@
 //Value Computed by CMake
 CHAI3D_BINARY_DIR:STATIC=/home/desenv/Documents/projetos/chai3d/CHAI3D/build
 
+//No help, variable specified on the command line.
+CHAI3D_BUILD_EXAMPLES:UNINITIALIZED=ON
+
 //Value Computed by CMake
 CHAI3D_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
 CHAI3D_SOURCE_DIR:STATIC=/home/desenv/Documents/projetos/chai3d/CHAI3D
+
+//No help, variable specified on the command line.
+CHAI3D_SUPPORT_FALCON:UNINITIALIZED=ON
 
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
