@@ -325,9 +325,9 @@ int main(int argc, char* argv[])
     world->addChild(camera);
 
     // position and orient the camera
-    camera->set(cVector3d(0.0, 0.0, 0.8),    // camera position (eye)
+    camera->set(cVector3d(0.0, 0.7, 0.0),    // camera position (eye)
                 cVector3d(0.0, 0.0, 0.0),    // lookat position (target)
-                cVector3d(0.0, 1.0, 0.0));   // direction of the (up) vector
+                cVector3d(0.0, 0.0, -1.0));   // direction of the (up) vector
 
     // set the near and far clipping planes of the camera
     // anything in front or behind these clipping planes will not be rendered
@@ -336,7 +336,7 @@ int main(int argc, char* argv[])
     // set orthographic camera mode
     if (stereoMode == C_STEREO_DISABLED)
     {
-        camera->setOrthographicView(1.3);
+        camera->setOrthographicView(1.0);
     }
 
     // set stereo mode
@@ -431,8 +431,9 @@ int main(int argc, char* argv[])
     // add object to world
     world->addChild(palette);
 
-    // set the position of the object
-    palette->setLocalPos(0.35, 0.0, 0.0);
+    // set the position and orientation of the object
+    palette->setLocalPos(0.0, g_canvas_y_level, -0.35);
+    palette->rotateAboutGlobalAxisRad(cVector3d(1,0,0), cDegToRad(90));
 
     // create texture map
     cTexture2dPtr texture = cTexture2d::create();
@@ -491,8 +492,9 @@ int main(int argc, char* argv[])
     // add object to world
     world->addChild(canvas);
 
-    // set the position of the object
-    canvas->setLocalPos(-0.35, 0.0, 0.0);
+    // set the position and orientation of the object
+    canvas->setLocalPos(0.0, g_canvas_y_level, 0.35);
+    canvas->rotateAboutGlobalAxisRad(cVector3d(1,0,0), cDegToRad(90));
 
     // create texture map
     canvas->m_texture = cTexture2d::create();
